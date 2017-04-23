@@ -18,9 +18,9 @@ class App extends Component {
         const client = createTweekClient("https://tweek.mysoluto.com/configurations")
         const tweekRepository = new TweekRepository({client});
 
-        tweekRepository.init()
-          .then(() => connect(tweekRepository))
-          .then(() => this.setState({isReady: true}));
+        await connect(tweekRepository);
+        await tweekRepository.refresh();
+        await this.setState({isReady: true});
     }
 
     render() {
