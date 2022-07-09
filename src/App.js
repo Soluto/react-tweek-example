@@ -1,38 +1,66 @@
-import React, { Component } from 'react';
+import React, {
+  Component
+} from 'react';
 import logo from './logo.svg';
 import './App.css';
-
-import {createTweekClient} from "@npmsoluto/tweek-rest";
-import TweekRepository from "@npmsoluto/tweek-repo";
-import {connect} from "@npmsoluto/react-tweek";
-
+import { prepareKey } from "react-tweek";
 import MyComponent from './MyComponent';
+import {
+  createTweekClientWithFallback,
+} from "tweek-client";
+import {
+  TweekRepository
+} from "tweek-local-cache";
+import {
+  makeObservable,
+  observable
+} from "mobx";
+
 
 class App extends Component {
-    constructor() {
-        super();
-        this.state = {};
-    }
 
-    async componentWillMount() {
-        const client = createTweekClient("https://tweek.mysoluto.com/configurations")
-        const tweekRepository = new TweekRepository({client});
+  tweekRepo=undefined;
+  tweekContext=undefined;
+  tweekClient=undefined;
 
-        tweekRepository.init()
-          .then(() => connect(tweekRepository))
-          .then(() => this.setState({isReady: true}));
-    }
+  constructor() {
+    super();
+    this.state={};
+    makeObservable(this, {
+      tweekRepo: observable,
+      tweekContext: observable
+    })
 
-    render() {
-      if (!this.state.isReady) {
-        return <div />
-      }
-      return (
-        <div className="App">
-            <MyComponent />           
-        </div>
-      );
+  }
+
+  async componentDidMount() {
+
+    this.tweekClient=createTweekClientWithFallback({
+      urls: ["https://tweek.mysoluto.com/configurations"],
+      requestTimeoutInMillis: 6000,
+      useLegacyEndpoint: true,
+    });
+    prepareKey("legacy/mobileremote/_");
+
+    this.tweekRepo=new TweekRepository({
+      client: this.tweekClient,
+      context: this.tweekContext,
+    });
+    this.setState({isReady: true})
+
+  }
+
+  render() {
+    if (!this.state.isReady) {
+      return <div/>
     }
+    return (
+       <div className="App" >
+       <img src={logo} alt="fireSpot"/>
+             <MyComponent/>
+             </div>
+    );
+  }
 }
 
 export default App;
