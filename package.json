@@ -3,11 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@npmsoluto/react-tweek": "^0.2.4",
-    "@npmsoluto/tweek-repo": "^0.1.6",
-    "@npmsoluto/tweek-rest": "^0.1.1",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "mobx": "^6.6.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-tweek": "^0.7.2",
+    "tweek-client": "^3.2.5",
+    "tweek-local-cache": "^0.8.0",
+    "uglify-js": "^3.16.2",
+    "webpack": "^5.73.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -15,7 +18,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-   "devDependencies": {
+  "devDependencies": {
     "react-scripts": "0.9.0"
   }
 }

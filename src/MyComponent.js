@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {withTweekKeys} from '@npmsoluto/react-tweek';
+import { withTweekKeys } from "react-tweek";
 
 const MyComponent = (props) => {
     const {shouldmultiplex = "waiting..."} = props;
